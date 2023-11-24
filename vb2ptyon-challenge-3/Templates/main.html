@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Stock Exchange</title>
+<style>
+  /* Add your CSS styles here */
+</style>
+</head>
+<body>
+
+<div class="stock-exchange">
+  <h1>Global Stock Exchange</h1>
+  
+  <div class="price-panel">
+    <label for="askPrice">Ask Price</label>
+    <input type="text" id="askPrice" name="askPrice">
+    
+    <label for="quantity">S/Qty</label>
+    <input type="text" id="quantity" name="quantity">
+    
+    <label for="bidPrice">Bid Price</label>
+    <input type="text" id="bidPrice" name="bidPrice">
+    
+    <label for="bQty">B/Qty</label>
+    <input type="text" id="bQty" name="bQty">
+    
+    <label for="lastPrice">Last Price</label>
+    <input type="text" id="lastPrice" name="lastPrice">
+    
+    <label for="lVol">L/Vol</label>
+    <input type="text" id="lVol" name="lVol">
+  </div>
+  
+  <div class="order-panel">
+    <div>
+      <input type="radio" id="buy" name="orderType" value="buy">
+      <label for="buy">Buy</label>
+      
+      <input type="radio" id="sell" name="orderType" value="sell">
+      <label for="sell">Sell</label>
+    </div>
+    
+    <label for="quantity">Quantity</label>
+    <input type="text" id="quantity" name="quantity">
+    
+    <label for="price">Price</label>
+    <input type="text" id="price" name="price">
+    
+    <button type="submit">Submit</button>
+  </div>
+  
+  <div class="shares-panel">
+    <label for="avgPrice">Avg Price</label>
+    <input type="text" id="avgPrice" name="avgPrice">
+    
+    <label for="totalQty">Total Qty</label>
+    <input type="text" id="totalQty" name="totalQty">
+    
+    <label for="buyValue">Buy Value</label>
+    <input type="text" id="buyValue" name="buyValue">
+    
+    <label for="grossMarketValue">Gross Market Value</label>
+    <input type="text" id="grossMarketValue" name="grossMarketValue">
+    
+    <label for="profitLoss">Profit/Loss</label>
+    <input type="text" id="profitLoss" name="profitLoss">
+  </div>
+
+</div>
+
+</body>
+</html>
