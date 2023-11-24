@@ -22,5 +22,8 @@ Make sure to read all of what copilot outputs
 Step by step 
 ------------
 
+Asking to expain the VB6 code it give a good explanation of the high level app and the button code, however did not comment on the timer. It also identified a possible miskake in the code for when a sell is completed: "One thing to note is that the code for calculating the average purchase price is the same in both the "Buy" and "Sell" sections. This seems odd, as you wouldn't typically adjust the average purchase price when selling shares. This could be a mistake in the code."
+
+
 Started with larger scale questions, "Convert code to python flask app". Found that this missed out parts of the application (timer/randoms) it didn't think that some variables were needed when they were.
 
