@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Page</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
+</head>
+<body>
+    <h1>Test Page</h1>
+    <p>Sell Quantity: <span id="sell_quantity"></span></p>
+    <p>Best Bid: <span id="best_bid"></span></p>
+    <p>Best Bid Quantity: <span id="best_bid_quantity"></span></p>
+    <p>Last Done Price: <span id="last_done_price"></span></p>
+    <p>Last Done Volume: <span id="last_done_volume"></span></p>
+
+    <select id="actionSelect">
+      <option value="buy">Buy</option>
+      <option value="sell">Sell</option>
+  </select>
+
+  <button id="actionButton">Click Me</button>
+
+  
+  <p>Average Price: <span id="average_price"></span></p>
+  <p>Total Quantity: <span id="total_quantity"></span></p>
+  <p>Buy Value: <span id="buy_value"></span></p>
+  <p>Market Value: <span id="market_value"></span></p>
+  <p>Profit Loss: <span id="profit_loss"></span></p>
+  
+
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+        socket.on('new_values', function(data) {
+          console.log(data);
+            document.getElementById('sell_quantity').innerHTML = data.sell_quantity;
+            document.getElementById('best_bid').innerText = data.best_bid;
+            document.getElementById('best_bid_quantity').innerText = data.best_bid_quantity;
+            document.getElementById('last_done_price').innerText = data.last_done_price;
+            document.getElementById('market_value').innerText = data.market_value;
+            document.getElementById('profit_loss').innerText = data.profit_loss;
+            document.getElementById('last_done_volume').innerText = data.last_done_volume;
+        });
+
+        document.getElementById('actionButton').addEventListener('click', function() {
+    var selectedAction = document.getElementById('actionSelect').value;
+    console.log('Button clicked, selected action is ' + selectedAction);
+    // Perform action based on selectedAction
+});
+    </script>
+</body>
+</html>

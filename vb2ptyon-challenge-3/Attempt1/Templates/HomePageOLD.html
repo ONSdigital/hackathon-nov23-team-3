@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Home Page</h1>
+    <button id="tradeButton">Trade</button>
+    <div id="response"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#tradeButton').click(function() {
+                $.ajax({
+                    url: '/trade',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        'OrderQuantity': 100,
+                        'OrderPrice': 10.0,
+                        'LastDonePrice': 10.0,
+                        'BuyValue': 1000.0,
+                        'TotalNumberOfSharesInHand': 100
+                    }),
+                    success: function(response) {
+                        $('#response').html(JSON.stringify(response));
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
