@@ -1,0 +1,26 @@
+Challenge 3:
+
+------------
+Quick Notes
+------------
+Need to be specific with request.
+Made code using an iterative approach.
+
+Easy to enter the error messages in chat and get coheriant responce with recomendations
+
+when you ask it to change (variable names), it only looks at the file your looking at and not breaking changes across the app, need to ask to check across whole project (be specific)
+
+Seems to only update one language file at a time when not specifc, (specify file names to scope)
+
+Seems to keep on referring to 'selected text' when asking questions - not sure if that is related to what's highlight or perhaps if anyone in the live share has something highlighted.
+
+Need to understand the applicaiton before asking to convert as some functionallity was missed. Cannot make any asumptions, coPilot makes some disicions for you without telling why.
+
+Make sure to read all of what copilot outputs
+
+------------
+Step by step 
+------------
+
+Started with larger scale questions, "Convert code to python flask app". Found that this missed out parts of the application (timer/randoms) it didn't think that some variables were needed when they were.
+
