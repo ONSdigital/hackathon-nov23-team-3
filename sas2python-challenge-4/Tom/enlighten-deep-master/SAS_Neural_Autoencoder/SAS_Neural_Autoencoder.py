@@ -6,15 +6,20 @@ from sklearn.metrics.pairwise import pairwise_distances
 import matplotlib.pyplot as plt
 from sas7bdat import SAS7BDAT
 import numpy as np
+import os
+from imblearn.over_sampling import SMOTE
 
 def hidden_layer_output(model, X):
     layer_output = X
     for i in range(len(model.coefs_) - 1):
-        layer_output = np.maximum(0, np.dot(layer_output, model.coefs_[i]) + model.intercepts_[i])
+        layer_output = np.dot(layer_output, model.coefs_[i]) + model.intercepts_[i]
     return layer_output
 
-# Set GitHub data directory (must contain provider_summary.sas7bdat)
-git_repo_dir = "D:\GitHub\hackathon-nov23-team-3\sas2python-challenge-4\Tom\enlighten-deep-master\SAS_Neural_Autoencoder"  # Set your directory path
+# Get the directory of the current script
+script_dir = os.path.dirname(os.path.realpath(__file__))
+
+# Join the directory with the filename
+file_path = os.path.join(script_dir, 'provider_summary.csv')
 
 # Set number of available cores
 num_cores = 1  # fill this with your number of cores
@@ -23,12 +28,28 @@ num_cores = 1  # fill this with your number of cores
 num_outliers = 5
 
 # Load data
-with SAS7BDAT(f'{git_repo_dir}\provider_summary.sas7bdat') as file:
-    provider_summary = file.to_data_frame()
+#with SAS7BDAT(file_path) as file:
+#    provider_summary = file.to_data_frame()
+provider_summary = pd.read_csv(file_path)
 
 # Filter columns
 cols_to_keep = [col for col in provider_summary.columns if col not in ['provider_id', 'name']]
 provider_summary = provider_summary[cols_to_keep]
+
+# Separate the features and the target
+# Assuming 'MAX_university_flag' is the target column
+X = provider_summary.drop('MAX_university_flag', axis=1)
+y = provider_summary['MAX_university_flag']
+
+# Initialize a SMOTE object
+smote = SMOTE(random_state=0)
+
+# Generate synthetic data
+X_resampled, y_resampled = smote.fit_resample(X, y)
+
+# Combine the resampled features and target into a new DataFrame
+synthetic_df = pd.concat([pd.DataFrame(X_resampled, columns=X.columns), pd.DataFrame(y_resampled, columns=['MAX_university_flag'])], axis=1)
+provider_summary = synthetic_df
 
 # Standardize numeric inputs for K-means clustering
 scaler = StandardScaler()
