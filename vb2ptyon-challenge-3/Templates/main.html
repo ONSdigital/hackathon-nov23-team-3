@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Global Stock Exchange</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
 <style>
   /* Add your CSS styles here */
 </style>
@@ -13,25 +14,27 @@
 <div class="stock-exchange">
   <h1>Global Stock Exchange</h1>
   
+  <ul id="tradeData">
   <div class="price-panel">
-    <label for="askPrice">Ask Price</label>
-    <input type="text" id="askPrice" name="askPrice">
+    <label for="asking_price">Ask Price</label>
+    <input type="text" id="asking_price" name="asking_price">
     
-    <label for="quantity">S/Qty</label>
-    <input type="text" id="quantity" name="quantity">
+    <label for="sell_quantity">S/Qty</label>
+    <input type="text" id="sell_quantity" name="sell_quantity">
     
-    <label for="bidPrice">Bid Price</label>
-    <input type="text" id="bidPrice" name="bidPrice">
+    <label for="bidding_price">Bid Price</label>
+    <input type="text" id="bidding_price" name="bidding_price">
     
-    <label for="bQty">B/Qty</label>
-    <input type="text" id="bQty" name="bQty">
+    <label for="bid_quantity">B/Qty</label>
+    <input type="text" id="bid_quantity" name="bid_quantity">
     
-    <label for="lastPrice">Last Price</label>
-    <input type="text" id="lastPrice" name="lastPrice">
+    <label for="last_done_price">Last Price</label>
+    <input type="text" id="last_done_price" name="last_done_price">
     
-    <label for="lVol">L/Vol</label>
-    <input type="text" id="lVol" name="lVol">
+    <label for="last_done_volume">L/Vol</label>
+    <input type="text" id="last_done_volume" name="last_done_volume">
   </div>
+  </ul>
   
   <div class="order-panel">
     <div>
@@ -41,34 +44,67 @@
       <input type="radio" id="sell" name="orderType" value="sell">
       <label for="sell">Sell</label>
     </div>
+
+    <label for="order_quantity">Quantity</label>
+    <input type="text" id="order_quantity" name="order_quantity">
     
-    <label for="quantity">Quantity</label>
-    <input type="text" id="quantity" name="quantity">
-    
-    <label for="price">Price</label>
-    <input type="text" id="price" name="price">
+    <label for="order_price">Price</label>
+    <input type="text" id="order_price" name="order_price">
     
     <button type="submit">Submit</button>
   </div>
   
+  <ul id="tradeData">
   <div class="shares-panel">
-    <label for="avgPrice">Avg Price</label>
-    <input type="text" id="avgPrice" name="avgPrice">
+    <label for="average_price">Avg Price</label>
+    <input type="text" id="average_price" name="average_price">
     
-    <label for="totalQty">Total Qty</label>
-    <input type="text" id="totalQty" name="totalQty">
+    <label for="total_quantity">Total Qty</label>
+    <input type="text" id="total_quantity" name="total_quantity">
     
-    <label for="buyValue">Buy Value</label>
-    <input type="text" id="buyValue" name="buyValue">
+    <label for="buy_value">Buy Value</label>
+    <input type="text" id="buy_value" name="buy_value">
     
-    <label for="grossMarketValue">Gross Market Value</label>
-    <input type="text" id="grossMarketValue" name="grossMarketValue">
+    <label for="market_value">Gross Market Value</label>
+    <input type="text" id="market_value" name="market_value">
     
-    <label for="profitLoss">Profit/Loss</label>
-    <input type="text" id="profitLoss" name="profitLoss">
+    <label for="profit_loss">Profit/Loss</label>
+    <input type="text" id="profit_loss" name="profit_loss">
   </div>
-
+  </ul>
+ 
 </div>
+<script>
+  var socket = io.connect('http://' + document.domain + ':' + location.port);
+  socket.on('trade_data', function(msg) {
+      //console.log(msg);
+      for (var key in msg) {
+        document.getElementById(key).value = msg[key];
+      }
+  });
+</script>
+<script>
+  $(document).ready(function() {
+            $('#submit').click(function() {
+                $.ajax({
+                    url: '/trade',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        'order_quantity': document.getElementById("order_quantity").value,
+                        'order_price': document.getElementById("order_price").value,
+                        'last_done_price': document.getElementById("last_done_price").value,
+                        'buy_value': document.getElementById("buy_value").value,
+                        'total_quantity': document.getElementById("total_quantity").value
+                    }),
+                    success: function(response) {
+                        $('#response').html(JSON.stringify(response));
+                    }
+                });
+                console.log(data)
+            });
+        });
+</script>
 
 </body>
 </html>
