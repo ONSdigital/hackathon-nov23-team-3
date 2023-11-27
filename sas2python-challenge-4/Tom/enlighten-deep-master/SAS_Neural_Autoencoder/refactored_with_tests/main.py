@@ -8,7 +8,7 @@ from imblearn.over_sampling import SMOTE
 import numpy as np
 import os
 
-def load_and_preprocess_data(file_path):
+def load_data(file_path):
     # Load data
     raw_data = pd.read_csv(file_path)
 
@@ -16,6 +16,9 @@ def load_and_preprocess_data(file_path):
     cols_to_keep = [col for col in raw_data.columns if col not in ['provider_id', 'name']]
     filtered_data = raw_data[cols_to_keep]
 
+    return filtered_data
+    
+def generate_synthetic_data(filtered_data):
     # Separate the features and the target
     features = filtered_data.drop('MAX_university_flag', axis=1)
     target = filtered_data['MAX_university_flag']
@@ -86,7 +89,8 @@ def main():
     # Set the number of outliers to find (default=5)
     num_outliers = 5
 
-    synthetic_data = load_and_preprocess_data(file_path)
+    raw_data = load_data(file_path)
+    synthetic_data = generate_synthetic_data(raw_data)
     synthetic_data, standardized_data = perform_clustering(synthetic_data)
     autoencoder = train_autoencoder(synthetic_data, standardized_data)
     score2D = hidden_layer_output(autoencoder, standardized_data)
