@@ -1,24 +1,66 @@
-import pandas as pd
+import pygame
+import random
 
-def aggregate(ts_value, periodicity, basis):
-    periodicity = periodicity.upper()
-    basis = basis.upper()
+# Initialize Pygame
+pygame.init()
 
-    print(f'ts_value= {ts_value}')
-    print(f'periodicity= {periodicity}')
-    print(f'basis= {basis}')
+# Create the game window
+screen = pygame.display.set_mode((400, 600))
+pygame.display.set_caption("Flappy Bird")
 
-    # Open the input dataset
-    try:
-        df = pd.read_csv(ts_value)  # Assuming the input is a CSV file
-    except Exception as e:
-        print(f"ERROR in 'aggregate' function - Cannot open {ts_value} file")
-        return
+# Load images
+bird_img = pygame.Surface((30, 30))  # Placeholder for bird image
+bird_img.fill((255, 255, 0))  # Filling the bird image with yellow color
+background_img = pygame.Surface(screen.get_size())
+background_img.fill((135, 206, 235))  # Light blue background
+pipe_img = pygame.Surface((50, 200))  # Placeholder for pipe image
+pipe_img.fill((0, 128, 0))  # Filling the pipe image with green color
 
-    # Check if the column '___pdicity' exists
-    if '___pdicity' in df.columns:
-        pdicity_exists = True
-    else:
-        pdicity_exists = False
+# Game variables
+bird_y = 300
+bird_speed = 0
+gravity = 0.5
+pipe_x = 400
+gap = 200
+pipe_speed = 2
+score = 0
 
-    print(f'pdicity_exists= {pdicity_exists}')
+# Main game loop
+running = True
+while running:
+    # Handle events
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                bird_speed = -10
+
+    # Update game state
+    bird_speed += gravity
+    bird_y += bird_speed
+    pipe_x -= pipe_speed
+
+    # Collision detection
+    if bird_y > 570 or bird_y < 0:
+        running = False  # End the game if the bird hits the ground or flies too high
+
+    # Reset pipe
+    if pipe_x < -50:
+        pipe_x = 400
+        score += 1
+
+    # Draw everything
+    screen.blit(background_img, (0, 0))
+    screen.blit(bird_img, (50, bird_y))
+    screen.blit(pipe_img, (pipe_x, 0))
+    screen.blit(pipe_img, (pipe_x, 400 + gap))
+
+    # Update display
+    pygame.display.update()
+
+    # Cap the frame rate
+    pygame.time.Clock().tick(30)
+
+# Quit Pygame
+pygame.quit()
